@@ -74,6 +74,11 @@ export const nativeMenuItems = [
             permissions: ["Identity.Role.*"],
           },
           {
+            title: "JIT Admin Templates",
+            path: "/identity/administration/jit-admin-templates",
+            permissions: ["Identity.Role.*"],
+          },
+          {
             title: "Offboarding Wizard",
             path: "/identity/administration/offboarding-wizard",
             permissions: ["Identity.User.*"],
@@ -712,6 +717,16 @@ export const nativeMenuItems = [
             permissions: ["Exchange.Mailbox.*"],
           },
           {
+            title: "Mailbox Permissions",
+            path: "/email/reports/mailbox-permissions",
+            permissions: ["Exchange.Mailbox.*"],
+          },
+          {
+            title: "Calendar Permissions",
+            path: "/email/reports/calendar-permissions",
+            permissions: ["Exchange.Mailbox.*"],
+          },
+          {
             title: "Anti-Phishing Filters",
             path: "/email/reports/antiphishing-filters",
             permissions: ["Exchange.SpamFilter.*"],
@@ -875,7 +890,7 @@ export const nativeMenuItems = [
         title: "Setup Wizard",
         path: "/onboardingv2",
         roles: ["admin", "superadmin"],
-        permissions: ["CIPP.Core.*"],
+        permissions: ["CIPP.AppSettings.*"],
       },
       {
         title: "Integrations",
@@ -887,7 +902,7 @@ export const nativeMenuItems = [
         title: "Custom Data",
         path: "/cipp/custom-data/directory-extensions",
         roles: ["admin", "superadmin"],
-        permissions: ["CIPP.Core.*"],
+        permissions: ["CIPP.AppSettings.*"],
       },
       {
         title: "Advanced",

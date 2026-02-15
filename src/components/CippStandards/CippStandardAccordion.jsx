@@ -29,7 +29,7 @@ import {
   Construction,
 } from "@mui/icons-material";
 import { Grid } from "@mui/system";
-import CippFormComponent from "/src/components/CippComponents/CippFormComponent";
+import CippFormComponent from "../CippComponents/CippFormComponent";
 import { useWatch, useFormState } from "react-hook-form";
 import _ from "lodash";
 import Microsoft from "../../icons/iconly/bulk/microsoft";
@@ -37,9 +37,9 @@ import Azure from "../../icons/iconly/bulk/azure";
 import Exchange from "../../icons/iconly/bulk/exchange";
 import Defender from "../../icons/iconly/bulk/defender";
 import Intune from "../../icons/iconly/bulk/intune";
-import GDAPRoles from "/src/data/GDAPRoles";
-import timezoneList from "/src/data/timezoneList";
-import standards from "/src/data/standards.json";
+import GDAPRoles from "../../data/GDAPRoles";
+import timezoneList from "../../data/timezoneList";
+import standards from "../../data/standards.json";
 import { CippFormCondition } from "../CippComponents/CippFormCondition";
 import { CippPolicyImportDrawer } from "../CippComponents/CippPolicyImportDrawer";
 import ReactMarkdown from "react-markdown";
@@ -714,6 +714,14 @@ const CippStandardAccordion = ({
                     <Stack>
                       <Typography variant="h6">{accordionTitle}</Typography>
                       <Stack direction="row" spacing={1} sx={{ my: 0.25 }}>
+                        {standard.deprecated && (
+                          <Chip
+                            label="Deprecated"
+                            color="error"
+                            size="small"
+                            sx={{ mr: 1, fontWeight: "bold" }}
+                          />
+                        )}
                         {/* Hide action chips in drift mode */}
                         {!isDriftMode && selectedActions && selectedActions?.length > 0 && (
                           <>
@@ -780,10 +788,21 @@ const CippStandardAccordion = ({
                   </Stack>
                   <Stack direction="row" alignItems="center" spacing={1}>
                     {standard.multiple && (
-                      <Tooltip title={`Add another ${standard.label}`}>
-                        <IconButton onClick={() => handleAddMultipleStandard(standardName)}>
-                          <SvgIcon component={Add} />
-                        </IconButton>
+                      <Tooltip
+                        title={
+                          standard.deprecated
+                            ? "Cannot add deprecated standard"
+                            : `Add another ${standard.label}`
+                        }
+                      >
+                        <span>
+                          <IconButton
+                            onClick={() => handleAddMultipleStandard(standardName)}
+                            disabled={standard.deprecated}
+                          >
+                            <SvgIcon component={Add} />
+                          </IconButton>
+                        </span>
                       </Tooltip>
                     )}
                     <Box
@@ -814,7 +833,21 @@ const CippStandardAccordion = ({
 
                 <Collapse in={isExpanded} unmountOnExit>
                   <Divider />
-                  <Box sx={{ p: 3 }}>
+                  {standard.deprecated && (
+                    <Box sx={{ p: 2, backgroundColor: "error.dark", color: "error.contrastText" }}>
+                      <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                        ⚠️ This standard is deprecated and cannot be configured. Please remove it
+                        from your template and use an alternative standard if available.
+                      </Typography>
+                    </Box>
+                  )}
+                  <Box
+                    sx={{
+                      p: 3,
+                      opacity: standard.deprecated ? 0.5 : 1,
+                      pointerEvents: standard.deprecated ? "none" : "auto",
+                    }}
+                  >
                     {isDriftMode ? (
                       /* Drift mode layout - full width with slider first */
                       <Grid container spacing={2}>
