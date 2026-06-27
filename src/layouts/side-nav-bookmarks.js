@@ -460,9 +460,15 @@ export const SideNavBookmarks = ({ collapse = false }) => {
                         textOverflow: "ellipsis",
                         minHeight: "24px",
                         display: "flex",
-                        alignItems: "center",
+                        flexDirection: "column",
+                        justifyContent: "center",
                       }}
                     >
+                      {bookmark.category && (
+                        <Box component="span" sx={{ fontSize: 10, opacity: 0.6, lineHeight: 1.2 }}>
+                          {bookmark.category}
+                        </Box>
+                      )}
                       {bookmark.label}
                     </Box>
                   </ButtonBase>
@@ -516,16 +522,18 @@ export const SideNavBookmarks = ({ collapse = false }) => {
                         </IconButton>
                       </>
                     )}
-                    <IconButton
-                      size="small"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        removeBookmark(bookmark.path);
-                      }}
-                      sx={{ p: "2px" }}
-                    >
-                      <CloseIcon sx={{ fontSize: 16 }} />
-                    </IconButton>
+                    {!locked && (
+                      <IconButton
+                        size="small"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          removeBookmark(bookmark.path);
+                        }}
+                        sx={{ p: "2px" }}
+                      >
+                        <CloseIcon sx={{ fontSize: 16 }} />
+                      </IconButton>
+                    )}
                   </Stack>
                 </Stack>
               </li>
